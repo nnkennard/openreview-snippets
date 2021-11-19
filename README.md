@@ -1,1 +1,3 @@
-# further-open-closed-investigations
+# OpenReview snippets
+
+Just some possibly useful OpenReview API snippets.
