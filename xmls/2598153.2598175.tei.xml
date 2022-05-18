@@ -1,0 +1,1232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Reflections on How Designers Design with Data</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName><forename type="first">Alex</forename><surname>Bigelow</surname></persName>
+							<email>abigelow@cs.utah.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of Utah</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Steven</forename><surname>Drucker</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of Utah</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Danyel</forename><surname>Fisher</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of Utah</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Miriah</forename><surname>Meyer</surname></persName>
+							<email>miriah@cs.utah.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of Utah</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Reflections on How Designers Design with Data</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="DOI">10.1145/2598153.2598175</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.1" ident="GROBID" when="2022-05-12T20:05+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Human-centered computing [Visualization]: Visualization application domains-Information visualization; Humancentered computing [Visualization]: Visualization systems and tools-Visualization toolkits Visualization</term>
+					<term>infographics</term>
+					<term>design practice</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In recent years many popular data visualizations have emerged that are created largely by designers whose main area of expertise is not computer science. Designers generate these visualizations using a handful of design tools and environments. To better inform the development of tools intended for designers working with data, we set out to understand designers' challenges and perspectives. We interviewed professional designers, conducted observations of designers working with data in the lab, and observed designers working with data in team settings in the wild. A set of patterns emerged from these observations from which we extract a number of themes that provide a new perspective on design considerations for visualization tool creators, as well as on known engineering problems.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Interest in visualization has exploded in recent years. Driven in part by the emergence of cheap, ubiquitous data, visualizations are now a common medium for exploring and explaining data produced in the sciences, medicine, humanities, and even our day-to-day lives <ref type="bibr" target="#b12">[13]</ref>. Amongst the huge growth in the number and type of visual analysis tools created for researchers and scholars who want to make sense of complex data, a quickly emerging subclass of visualizations are infographics <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b13">14]</ref>. These visualizations use static, visual representations of data to tell a story or communicate an idea, and have infiltrated the public space through a wide variety of sources including news media, blogs, and art <ref type="bibr" target="#b38">[38]</ref>.</p><p>The increased popularity of infographics has subsequently grown a large community of people who create these visualizations. This community includes designers, artists, journalists, and bloggers whose main expertise is not in engineering or programming. These infographic designers tend to rely on software illustration tools that ease the process of creating a visual representation of data.  <ref type="bibr" target="#b24">[24]</ref>. (b) One item in an ordered list is shown out-of-order <ref type="bibr" target="#b34">[34]</ref>.</p><p>The design and development of tools for creating visual representations of data has been a topic of interest in the computer science community for many years. In designing these tools, computer scientists have long battled the conflicting requirements of ease-of-use and flexibility <ref type="bibr" target="#b12">[13]</ref>. Despite the wealth of tools that have been proposed and developed, we suspected that many people creating infographics today do not use most, if any, of these tools. Our suspicions arose from two sources. First, we found a number of infographics on the web that would not be generated by an automated process that ties visuals closely to the data, such as the examples in Figure <ref type="figure" target="#fig_0">1</ref> -these observations match what others have reported <ref type="bibr" target="#b28">[28]</ref>. Second, we engaged in informal conversations with design professionals and students † Microsoft Research {sdrucker, danyelf}@microsoft.com who indicated to us that they largely plot data manually in a design tool such as Adobe Illustrator. These suspicions led us to explore how designers create visualizations and what challenges they have, as well as to probe the disconnect between how designers design with data and the tools programmers create for them to do so.</p><p>In this paper we contribute an observational study with designers, both in the lab and in situ, as well as a series of interviews with design professionals. Identifying patterns in these observations and interviews exposes several emergent themes. These themes are the role of manual encoding, how and when designers make visual encoding decisions, the importance of tool flexibility, and why data exploration and manipulation is critical to the design process. We discuss these themes in the context of two known challenges in the visualization community, that of exploring and modifying the data abstraction, and that of creating and modifying the visual representation. Finally, we show how these themes translate into rich opportunities for programmers creating new visualization design tools.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">BACKGROUND</head><p>For purposes of comparing domains, we delineate visualization practitioners based on their primary skill sets, whether in design or programming. In this work, we study designers whose main expertise is in design. In contrast, we refer to people who primarily create visualizations and visualization creation tools programmatically as visualization programmers. While there are many practitioners who have expertise in both, we find interesting comparisons when individuals have different skill levels in these areas. A third skill set that emerges as important for both designers and visualization programmers is expertise in data analysis.</p><p>Our analysis methods are inspired by the long history in the human-computer interaction community for examining design practice and building tools to support a wide variety of contexts. For example, the Designer's Outpost <ref type="bibr" target="#b17">[18]</ref> is an environment designed to support web designers; it is based on a previous study examining design practice around websites <ref type="bibr" target="#b29">[29]</ref>. Grammel et al. examine how visualization novices use visualization systems and programming environments <ref type="bibr" target="#b10">[11]</ref>. In this paper, however, we explore limitations of these tools and models in a design context. Another line of related work is that of Walny et al <ref type="bibr" target="#b46">[46]</ref> which looks at sketching on whiteboards as a design practice. These diagrams are often representations of systems or interactions, and are not necessarily related to data; the charts tended to be highly abstract. In this work we specifically look at how designs work directly with data to create concrete charts and graphs.</p><p>To avoid ambiguity, we define the following terms when discussing the characteristics of data. First, data semantics are the real-world meanings of the data, such as whether the data represents temperature or height measurements. Second, data behavior encompasses the trends, patterns, and shape of the data values relative to each other. Third, data structure, sometimes referred to as data type <ref type="bibr" target="#b27">[27]</ref>, is the chosen organization of data, from low-level decisions to order or filter data attributes through high-level decisions to abstractly represent data as a table or graph. And fourth, derived data are created from the original data values. These include measures such as count, summation, or average, transformations such as binning, or the inclusion of additional, external data.</p><p>The first two characteristics, semantics and behavior, are inherent to data and are not decided or modified in the process of creating a visualization. They are, however, critical for a designer to understand. The latter two characteristics, structure and derived data, are an important part of the design decision process when working with data <ref type="bibr" target="#b26">[26]</ref>. Specifically, designers have the freedom to create, define, and modify data structure and derived data. Taken together, these latter two characteristics are known as the data abstraction, which is a specific interpretation of data that supports the high-level goals of a visualization. Data abstractions play a central role in how visualization programmers reason about and work with data <ref type="bibr" target="#b25">[25,</ref><ref type="bibr" target="#b27">27,</ref><ref type="bibr" target="#b31">31,</ref><ref type="bibr" target="#b37">37]</ref>.</p><p>Designing a data abstraction requires the freedom to explore alternative interpretations of data, including alternative data structures and deriving new data. Some amount of innate understanding of data analysis is necessary to effectively evaluate the space of possible data abstractions. A number of general purpose data abstraction tools designed for data wrangling and manipulation can help in these decisions. These tools include spreadsheet software such as Microsoft Excel, which allow users to perform simple manipulations such as aggregation, filtering, sampling, and sorting. Other tools in this category include general purpose data cleaning tools <ref type="bibr" target="#b11">[12,</ref><ref type="bibr" target="#b15">16,</ref><ref type="bibr" target="#b16">17,</ref><ref type="bibr" target="#b32">32,</ref><ref type="bibr" target="#b47">47]</ref> which are able to parse files of various formats and scales, provide some amount of data manipulation, and scale to larger amounts of data. Fundamentally, though, testing and validating the efficacy of a data abstraction for a specific problem relies on representing the abstraction visually <ref type="bibr" target="#b27">[27]</ref>.</p><p>A significant amount of visualization research focuses on tackling the challenge of making visual representations easy to create <ref type="bibr" target="#b9">[10]</ref>. Visualization creation tools, such as NoP-umpG <ref type="bibr" target="#b20">[20]</ref>, SAGE <ref type="bibr" target="#b35">[35]</ref>, Tableau <ref type="bibr" target="#b22">[22,</ref><ref type="bibr" target="#b40">40]</ref>, Many Eyes <ref type="bibr" target="#b44">[44]</ref>, Graph Sketcher <ref type="bibr" target="#b39">[39]</ref>, and Vis-à-vis <ref type="bibr" target="#b8">[9]</ref> make importing data and visual representation specification easy and largely automated. As we show in this paper, however, they tend to limit the design space, reducing their applicability to designers. Visualization programming environments, such as Processing <ref type="bibr" target="#b33">[33]</ref>, D 3 <ref type="bibr" target="#b4">[5]</ref>, Protovis <ref type="bibr" target="#b3">[4]</ref>, VTK <ref type="bibr" target="#b36">[36]</ref>, and ggplot <ref type="bibr" target="#b48">[48]</ref>, support the creation of sophisticated, flexible, and creative visualizations. These environments, however, rely on non-visual techniques such as programming, grammars, or declarative constructs that take skill and time to learn. Our data shows that designers tend to acquire these skills only when they have no other alternatives.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">METHODS AND PARTICIPANTS</head><p>The data we collected comes from several sources: observations of designers in controlled, observational studies; observations of designers working on teams in situ at a design hackathon; and a series of unstructured and semistructured interviews. For each observation and interview we took notes, voice recordings, and collected design artifacts when appropriate -the voice recordings were later transcribed, and the artifacts are available in the Supplemental Material. We organized the raw data around emergent patterns presented in the next section.</p><p>In total, we observed and/or interviewed fifteen designers with a diverse range of experiences -all of the participants had strong design skills and training. Our participants included academics teaching in design departments; design students; and a spectrum of professional designers: at a large software company, at a large scientific research lab, and working in freelance. Participants were solicited for their expertise, and their participation was voluntary. Figure <ref type="figure" target="#fig_1">2</ref> lists the designers, their design role, their experience with programming and data analysis, and what aspect of our studies they participated in.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Observational studies</head><p>We designed our observational studies to better understand how designers work with data. These studies centered around two datasets that we prepared, inspired by existing infographics <ref type="bibr" target="#b23">[23,</ref><ref type="bibr" target="#b34">34]</ref> -these datasets are included in the Supplemental Material. The first is a time-travel dataset depicting years traveled in popular movies. The dataset is tabular with the rows representing a time-travel trip in a movie, and the columns consisting of the movie title, movie release year, and the start and stop years involved with the trip. We deliberately included two outliers in the dataset in an attempt to observe how unexpected data disrupts a designer's process. All of the movies that we included traversed several to hundreds of years, with one exceptional trip that traversed 150 million years. The second outlier is a second trip from a movie already represented in the dataset.</p><p>The second dataset captures the reuse of actors, directors, and other staff among popular hbo tv productions. This dataset includes two tables, the first where each row is an individual and each column is a production title. In the cells, each individual's role is given for the productions he or she participated in. The second table consists of aggregate information about each production, indicating how many actors, directors, etc. were reused from another production. We designed this dataset to test how designers explore data structure; while the data was originally inspired by the relational infographic in Figure <ref type="figure" target="#fig_0">1</ref>(b), we instead chose to present the data in a tabular format.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Hackathon</head><p>We also observed two teams consisting of both designers and programmers at a three-day data visualization hackathon. The hackathon provided an opportunity to observe designers working in a real-world setting, as well as in a team environment. Each hackathon team was created organically, with participants choosing their own team, data sources, and objectives, reducing the potential bias due to lack of motivation and engagement typical in lab studies <ref type="bibr" target="#b30">[30]</ref>. One team chose to work with FitBit activity monitor <ref type="bibr" target="#b0">[1]</ref> data, and the other focused on software repository bug tracking data.</p><p>In contrast to our observational studies, the hackathon was not strictly limited to static infographics; both teams planned interactive software visualizations. While the designers discussed interactivity, the only representations of data that they produced directly were static, and the patterns we observed were consistent with our other observations and interviews.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Interviews</head><p>We conducted a series of unstructured and semistructured interviews with designers both in person and over Skype. The interviews included questions about the designers' design process, how working with data influenced their design process, and the types of tools used.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">PATTERNS</head><p>From an analysis of the data that we collected from our observations and interviews, we identified twelve emergent patterns of how designers work with data to create infographics. Below we break these patterns into three classes: how the designers approached data, how data affected the designers and their work process, and alternatives to manual encoding of data that the designers employed. Each specific pattern is stated in bold and numbered.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">How designers approached data</head><p>In our observational studies we observed all of the designers initially sketching visual representations of data on paper, on a whiteboard, or in Illustrator. In these sketches, the designers would first draw high-level elements of their design such as the layout and axes, followed by a sketching in of data points based on their perceived ideas of data behavior (P1). An example is shown in Figure <ref type="figure" target="#fig_2">3</ref>. The designers often relied on their understanding of the semantics of data to infer how the data might look, such as F1 anticipating that FitBit data about walking would occur in short spurts over time while sleep data would span longer stretches. However, the designers' inferences about data behavior were often inaccurate (P2). This tendency was acknowledged by most of the designers: after her inference from data semantics, F1 indicated that to work effectively, she would need "a better idea of the behavior of each attribute." Similarly, B1 did not anticipate patterns in how software bugs are closed, prompting a reinterpretation and redesign of her team's visualization much later in the design process once data behavior was explicitly explored. In the time travel studies, T3 misinterpreted one trip that later caused a complete redesign.</p><p>Furthermore, the designers' inferences about data structure were often separated from the actual data (P3). In brainstorming sessions at the hackathon, the designers described data that would be extremely difficult or impossible to gather or derive. In working with the HBO dataset, H1 experienced frustration after he spent time writing a formula in Excel only to realize that he was recreating data he had already seen in the aggregate table.</p><p>Our interviews indicated that both (P2) and (P3) are common patterns. The designers stressed that thorough data exploration is necessary to avoid misinferences, and that it is an important part of the design process. I5 said, "I spend most of my time with the data. That is the hard part when you are teaching because the students like to jump very quickly into solutions. It is very hard to explain that most of your time spent creating a visualization is with data."</p><p>Not surprisingly, the amount of data exploration and manipulation was related to the level of a designer's experience working with data (P4). In the time travel observational studies, both T3 and T4 discovered the 150 million year outlier quickly; T3 accomplished this by asking the interviewer specific questions about the data, and T4 discovered it by creating charts in Excel. They also both discovered the repeated film. In contrast, the student designers T1 and T2 did not explore the data at all, and even resisted leading offers to have the data sorted toward the end of their exercises -they did not discover the outliers on their own. Similarly, at the hackathon, F2 was the only designer to ask the programmers on her team specific questions about the data that they were working with.</p><p>Our interviews also confirmed pattern P4. I2 commented that "There's a default on the design side to go quickly to how it looks and not necessarily find the outlier." I3 similarly said, "Having a knack for the data science part often separates the good designers from the great ones. Personally I believe that the data science part is the Achilles heel of the designer. You gain insight by working directly with the data. The best designers are the ones that will open up Excel and manipulate the data before they get to the graphics part."</p><p>All but one designer in our observational studies manually encoded data; we observed T1, T3, T4, H1, and H2 looking at data points one at a time, estimating the placement of marks, and placing the marks by hand. Most often, the designers would draw an axis, guidelines, and tick marks to assist in this process. While all of our interviews confirmed that this is a common practice, we were surprised to learn that designers did not necessarily dislike manual encoding (P5). I2 said, "I am amazed at what people will sit through in terms of doing something manually with Illustrator or InDesign... not all of it is unenjoyable for them.... There's something great about just sitting there [with] my music on... [and getting] it perfect." Furthermore, this toleration for manual work is in exchange for flexibility, which is consistent with what others have observed <ref type="bibr" target="#b45">[45]</ref>. I1 explained, "Illustrator is the basic go-to tool that allows for enough creativity and flexibility to create and prototype what we want... [but] there's this lack of being able to connect real data to it. It just doesn't exist, so we sit there and have someone read through a spreadsheet." We also noticed that for some of the designers, manual encoding was a form of data exploration (P6). In the time travel study, both T3 and T4 discovered the outlier film with multiple trips while manual encoding the data and not during their earlier attempts to explore the data.</p><p>Manual encoding usually occurred toward the end of each designers' process after they created and refined other visual elements. This delay suggests that data encoding was a later consideration with respect to other visual elements of the infographic (P7); they attempted to understand what a visualization would look like in the context of the rest of their design before real data was included. For example, in our observational studies T3, T4, and H1 spent considerable time at the beginning of their process deciding things such as general layout, typefaces, color schemes, and paper sizes, along with sketching their perceptions of the data behavior. These decisions were explored long before considering where specific data points would actually fall. Another indication of this pattern was observed at the hackathon as F2 was presenting high-level ideas for a visualization to her team: when a programmer interrupted to ask what the axes were in a plot, the designers on the team emphatically responded that that level of detail would be decided later. H1 explained, "You almost see masses and blobs and shapes, and the relationship between them." I1 observed, "The way that [programmers] approach it is from the detail, back out.... [for us], the data binding stuff is really less important at first.... [Programmers might say] that's a very unstructured way to approach the problem, [but designers say that] if you start with specifications, you've limited your design world immediately."</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">How data affects designers</head><p>We observed that while the designers frequently refined the nondata visual elements of their designs, such as color and font choices, the design of their data encodings remained unchanged until assumptions about data behavior were shown to be incorrect (P8). For example, in the time travel study T3 introduced curves into her design after encountering the incompatibility of one movie in her initial design. Similarly both T1 and T2 made changes to their designs after discovering one of the outliers: T1 repeatedly drew roughly the same bar chart early in his process, but introduced a curled bar when shown the outlier, shown in Figure <ref type="figure" target="#fig_3">4</ref>(a). Similarly, T2 changed to a completely different circular encoding. In contrast, the designers on the FitBit hackathon team did not have direct access to their data, and in spite of breaking out for individual brainstorming sessions, F1, F2, and T4 drew only variations on a single representation type, a radar graph as shown in Figure <ref type="figure" target="#fig_2">3</ref>. Ad-ditionally, we observed that the designers did not vary from the initial, given structure of the data (P9). For example, in the HBO study both designers created a matrixstyle visualization that mimicked the input file format, one of which is shown in Figure <ref type="figure" target="#fig_3">4(b)</ref>. This contrasts the original infographic that inspired the dataset that explicitly represented the data relationally, shown in Figure <ref type="figure" target="#fig_0">1</ref> Despite the benefits seen from manual encoding, we also observed that the cost in effort and time of manual encoding kept designers from trying many varied ideas (P10). In the time travel study T1 plotted 21% of the movies, T3 plotted 14%, and T4 plotted 25%. T2 plotted no data points at all. For the HBO study, H1 was able to encode 26% of the actors while H2 was able to encode 32%. As the designers engaged in manual encoding, comments about inefficiency were frequent. For example, H1 said "I don't want to do this, but I... manually put in all the dots.". Furthermore, H1 reluctantly stuck with his original design even after making discoveries about the data that prompted dramatic changes in sketched encodings. He said "I sketched that I was going to do [one thing]... but once I got it on the page, I saw something else.... If I twist this, then the whole grid is going to change, and I'm going to have to move everything around, and I'm going to have to manually reset all the text." While these effects may have been compounded by the time limits of our observations, deadlines remain critical factors in the design process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Alternatives to manual encoding</head><p>We observed some designers using external tools to encode the data into a chart and we discussed this process in several interviews. In our observational studies we saw two designers copy charts from Excel into Illustrator, while a third commented that she wished she could follow this pattern: "I would rather make [Excel] do this for me... [but] I don't know how -and it's not as pretty." In all cases where this technique was observed or discussed, however, the designers still performed downstream repetitive tasks to refine an imported chart to meet their design goals (P11). I6 described his process: "I created a plot in Tableau and then exported it to Illustrator to put the labels on. I had to add the specific tick-marks by hand. [For the labels], Tableau does labels, but it isn't very smart... I had to manually pull them apart when they overlapped. I did the donut chart in Excel because Tableau doesn't have them. I then changed the colors [in Illustrator] to greyscale to get rid of the Microsoft colors." As with manual encoding, the labor-intensive nature of importing a single chart kept designers from attempting to import multiple charts.</p><p>Another technique we heard in our interviews was to encode the data programmatically and import the resulting graphic into Illustrator. I5 described how she used programming this way: "Then I decided to use a radial layout to plot the data. I started in Illustrator, but then I realized it was going to be way too hard to do... so then I said, oh this is stupid, so I went to Processing. I looked online to see if I could learn some tutorials to help me put the data into this idea. Then I [wrote the program]. I brought all the data into my simple Processing code, and then I created a pdf, and brought it back into Illustrator." Designers frequently expressed dissatisfaction with these approaches. I5 lamented, "I teach myself programming when I don't see any other way."</p><p>A common frustration with alternatives to manual encodings that we heard about in interviews was that the designers disliked tools that enforce a design process (P12). For example, I6 indicated a strong negative reaction to Tableau's Show Me functionality <ref type="bibr" target="#b22">[22]</ref>: "Tableau has lots of prescribed things... they say, okay, you have these two data types, then we recommend that you use this plot. I hate that thing; I always turn that thing off." Similarly, I3 commented, "developers always want to [control the design steps]; [they say] here is your flow, you go through these steps, here are the tools, here are the things you can do, here are things you can't do. I don't think designers want that.... [They] want to create something that you've never seen before. And to create a tool that will allow that amount of flexibility is really challenging. Designers like Illustrator because it lets them do whatever they want."</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">THEMES</head><p>The observed patterns reveal four themes. First, manual encoding is acceptable when the tradeoff is flexibility, and is a form of data exploration. Second, designers prefer to place data on existing graphics instead of generating graphics directly from data. Third, to support flexibility, operations should be commutative. Finally, tool creators should be aware of designers' struggles to define and modify data abstractions. These themes have interesting implications for two known challenges in the visualization community: the challenge of creating tools that support defining and modifying the data abstraction; and the challenge of creating flexible yet efficient tools for producing visual representations of data. We denote each theme in bold.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Manual encoding has its benefits</head><p>Our observations and interviews point to a clear trend that manual encoding is not only tolerated, but even embraced by designers in order to maintain flexibility and richness in the design process. This finding is in juxtaposition with the motivations and goals of many visualization creation tools that strive to ease the burden of encoding data by limiting the design space and enforcing an order of operations. Even in situations where designers use external tools to encode data, this step was just one of many -designers still spent significant time and effort manually modifying and refining externally generated charts (P11). We found that designers are willing to endure repetition in order to keep their process and their options flexible (P5, P12). There are even benefits to manual encoding: it provides unique opportunities for designers to discover aspects of the data (P6), and it can even be enjoyable (P5).</p><p>There are trade-offs, however, as manual encoding consumes significant time and effort, reducing opportunities and a willingness to explore a variety of design alternatives of visual representations of data (P10). This limitation contrasts a central tenet of design practice to try many ideas and explore alternatives. Recent research supports this tenet by looking at how starting with multiple examples <ref type="bibr" target="#b19">[19]</ref>, exploring a variety of approaches <ref type="bibr" target="#b21">[21]</ref>, and building multiple prototypes <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b7">8]</ref> can help designers approach problems more creatively and produce higher quality solutions.</p><p>This pattern sheds light on a part of the visualization representation challenge that has not received much attention. Currently, users of both visualization creation tools and visualization programming environments are vigilantly protected -and, in most cases, prevented -from engaging in manual encoding in part to avoid the time consuming efforts necessary in manual encoding. The benefits of manual encoding our patterns expose, however, are not currently exploited and could provide interesting new directions for future tool development.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Placing data on existing graphics</head><p>While automated visualization generators provide ease of use, efficiency, and sometimes support user-specification of the look and feel of marks, these features come at the expense of flexibility <ref type="bibr" target="#b12">[13]</ref>: the underlying visual representations are all predefined or selected via a gui. Instead, designers told us they want to be able to create something new and novel. Visualization programming environments also have benefits in that they provide more flexibility, but they require the representation to be defined in a non-visual, symbolic manner. Instead, we observed designers creating visual representations graphically (P1), and that they were often unsatisfied by the results of both visualization creation tools and visualization programming environments (P11,P12).</p><p>In contrast to these two bottom-up approaches, our observations indicate that designers create visualizations in a top-down, graphical process where they place data marks on top of other visual elements. Designers tend to try to understand the overall appearance of a visualization before plotting real data on axes that they draw (P7). There are usually other design elements in an infographic that they must consider -data is only a part of how they tell a story -and they tend to think of influencing existing graphics that they have already created, instead of generating graphics directly from data.</p><p>The seemingly irreconcilable balance between ease of use and flexibility is another part of the visual representation challenge. This theme suggests that if tools can support placing data on existing graphics instead of generating graphics from data, they will be both intuitive to use and very flexible. While calls for this kind of approach have been articulated in websites and blogs <ref type="bibr" target="#b42">[42,</ref><ref type="bibr" target="#b43">43]</ref>, little academic research has pursued this direction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Relaxing the sequence of processing</head><p>We found that the designers we observed and interviewed avoid tools that enforce a process (P12). This supports the idea that designers prefer a flexible design environment that does not enforce a specific order of operations. Consistent with what others have observed <ref type="bibr" target="#b41">[41]</ref>, the order in which designers will perform various operations can not, and perhaps even should not, be anticipated; instead visualization design environments could support a workflow with a flexible sequence. Changes in one area of the design could, ideally and intuitively, affect changes in another.</p><p>This need is due, in part, to the fact that designers consider many aspects besides just the visual encoding itself, including annotations, labels, and embellishments (P7). Interestingly, designers use external tools not as closed solutions, but as just one step in their workflow(P11). This is a reaction to native restrictions in these tools: current tools force designers to specify a complete mapping their data exactly once, and the result is brittle. To accommodate these tools, designers still had to engage in repetitive work similar to manual encoding (P11). This resulted in the same drawbacks of manual encoding (P10), to the extent that their entire process had to be repeated if anything beyond a superficial change was to be made.</p><p>This theme lies at the intersection of the data abstraction and visual representation challenges. In many ways, the visualization community faces the same commutativity problem: 1) updating a visualization in response to a data abstraction change, or 2) updating a data abstraction in response to a visualization are extremely laborious. Techniques to facilitate either are open areas of research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">Creating an effective data abstraction</head><p>As designers with data experience are aware (P4), designers have a critical need to be able to define and modify data abstractions. This is important for two reasons. First, the time spent planning or implementing ineffective or incompatible visualizations can be reduced by understanding data behavior (P2) and structure (P3) early on in the design process. And second, variety in design is increased when the data behavior (P8) and structure (P9) are well understood. Others have shown that variety in design is important in that it directly affects the overall quality of the finished product <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b19">19,</ref><ref type="bibr" target="#b21">21]</ref>.</p><p>Data abstraction tools that attempt to provide the freedom to explore alternative interpretations of data, including alternative data structures and deriving new data, are still in their infancy. The idea that a data abstraction is in part created and a piece of the overall design suggests that working with data abstractions may be a creative space in its own right <ref type="bibr" target="#b26">[26,</ref><ref type="bibr" target="#b37">37]</ref>. As such, some have suggested that the responsibility for a given data abstraction belongs to its creator <ref type="bibr" target="#b5">[6]</ref>, not necessarily the tool that facilitated its creation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">OPPORTUNITIES</head><p>These themes expose rich opportunities for visualization creation tools. One is to separate the processes of visual encoding and data binding so that manual visual encoding is allowed, but data connections are maintained. Granting designers direct control over what data bindings exist could liberate them to follow any order of operations in their process: similar to existing approaches, they could create visual elements from data. Alternatively, they could first create visual elements, and later associate them with data, as our themes suggest they prefer. This opportunity, however, presents implementation challenges, including how to handle ambiguous states and how to support a design's longevity.</p><p>Another opportunity is to allow a designer to explore data abstractions directly in the context of visualization, and vice-versa. For example, a designer may wish to select all visual items associated with negative data values, similar to Illustrator's functionality for selecting items of a given color. Visualization tools could support data operations internally, or connect to data abstraction tools externally. They would provide a flexible order of operations in a different sense, in that it would be easier to iterate on data abstractions and visual representations together. Open problems in this area include how to make data abstraction tools and visualization design environments interoperable such that they are agnostic to process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">CONCLUSIONS AND FUTURE WORK</head><p>In this paper we present an observational study, as well as a set of interviews, about how designers design with data. The observations include exercises with prepared data sets in the lab and observations of designers working as teams in the wild. From these observations and interviews we extract a set of patterns that support themes that have implications for data abstraction and visual representation challenges. While these challenges are well-known to visualization programmers, the design perspective we present yields new insights into ways to address them. We intend to explore and validate the typical tasks involved in visualization design in light of these opportunities via technology probes <ref type="bibr" target="#b14">[15]</ref>. Designers' struggles with data mirror challenges in the visualization community; as a result, continued experiments and discoveries in this space will benefit not just the creation of infographics, but broader questions of creating visualizations quickly, efficiently, and flexibly.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Examples of infographics where the visual representations do not explicitly match the data. (a) The data shown in the text does not match the percentages encoded in the pie charts [24]. (b) One item in an ordered list is shown out-of-order [34].</figDesc><graphic url="image-2.png" coords="1,345.22,421.70,215.19,72.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Skill levels of each designer that participated. *T4 was also on the FitBit hackathon team and H1 participated in unstructured interviews.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: A whiteboard sketch of a repeated radar graph design from the hackathon. This sketch shows the planned visualization in context of the rest of the design.</figDesc><graphic url="image-3.png" coords="4,53.80,53.80,239.11,134.91" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Examples of how data can inspire or limit variety. (a) T1 introduced a curled bar when informed of the outlier. (b) H2 recreated the dataset's tabular file format graphically.</figDesc><graphic url="image-5.png" coords="5,78.65,208.00,215.20,78.36" type="bitmap" /></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.">ACKNOWLEDGMENTS</head><p>We greatly appreciate the feedback, interviews, and participation of our designers, especially for the help from Ben Fry, Isabel Meirelles, Bang Wong, Chris Goranson, Jihoon Kang, Jim Agutter, and Jonathan Hickerson. This work is sponsored in part by the Air Force Research Laboratory and the DARPA XDATA program.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">Fitbit</forename><surname>Tracker</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Fitbit</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Inc</surname></persName>
+		</author>
+		<ptr target="http://www.fitbit.com" />
+		<imprint>
+			<pubPlace>San Francisco, CA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Useful junk?: the effects of visual embellishment on comprehension and memorability of charts</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bateman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Mandryk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Gutwin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genest</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcdine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brooks</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;10</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;10<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="2573" to="2582" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">What makes a visualization memorable? Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Borkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Vo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Bylinskii</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Isola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sunkavalli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Oliva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Pfister</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2306" to="2315" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Protovis: A graphical toolkit for visualization. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bostock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Heer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1121" to="1128" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">D3; data-driven documents. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bostock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Ogievetsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Heer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2301" to="2309" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Informform, information design: in theory</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Da Gandra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Van Neck</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+	<note>an informed practice</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Prototyping dynamics: sharing multiple designs improves exploration, group rapport, and results</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fortuna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Schwartz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Altringer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Schwartz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Klemmer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;11</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;11<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="2807" to="2816" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Parallel prototyping leads to better design results, more divergence, and increased self-efficacy</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Dow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Glassco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kass</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Schwartz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Klemmer</surname></persName>
+		</author>
+		<idno>18:1-18:24</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Trans. Comput.-Hum. Interact</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2010-12">Dec. 2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Vis-a-vis: A Visual Language for Spreadsheet Visualizations</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Fisher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Drucker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Fernandez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<idno>MSR-TR-2011-142</idno>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Microsoft Research</publisher>
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A survey of visualization construction user interfaces</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Grammel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bennett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tory</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-A</forename><surname>Storey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Eurographics Conference on Visualization (EuroVis)</title>
+				<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">How information visualization novices construct visualizations. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Grammel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tory</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Storey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="943" to="952" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Openrefine (version 2.5). http://openrefine.org. free, open-source tool for cleaning and transforming data</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Medical Library Association: JMLA</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">233</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Creation and collaboration: Engaging new audiences for information visualization</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Heer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Carpendale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Weaver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Isenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Information Visualization</title>
+				<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2008">2008</date>
+			<biblScope unit="page" from="92" to="133" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Benefitting infovis with visual difficulties. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hullman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Adar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Shah</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2213" to="2222" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Technology probes: Inspiring design for and with families</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hutchinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Mackay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Westerlund</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">B</forename><surname>Bederson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Druin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Plaisant</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Beaudouin-Lafon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Conversy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Evans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hansen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Roussel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Eiderbäck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;03</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;03<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="17" to="24" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Potluck: Data mash-up tool for casual users</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Huynh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Karger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Semantic Web</title>
+		<title level="s">Lecture Notes in Computer Science</title>
+		<meeting><address><addrLine>Berlin Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">4825</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Wrangler: Interactive visual specification of data transformation scripts</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kandel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Paepcke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hellerstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Heer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Human Factors in Computing Systems (CHI)</title>
+				<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<monogr>
+		<title level="m" type="main">The designers&apos; outpost: a tangible interface for collaborative web site</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Klemmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Farrell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bilezikjian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Landay</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m">Proceedings of the 14th annual ACM symposium on User interface software and technology, UIST &apos;01</title>
+				<meeting>the 14th annual ACM symposium on User interface software and technology, UIST &apos;01<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="page" from="1" to="10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Designing with interactive example galleries</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Srivastava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Brafman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Klemmer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;10</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;10<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="2257" to="2266" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<monogr>
+		<title level="m" type="main">NoPumpG: Creating Interactive Graphics with Spreadsheet Machinery</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lewis</surname></persName>
+		</author>
+		<idno>CU-CS-372-87</idno>
+		<imprint>
+			<date type="published" when="1987-08">Aug. 1987</date>
+		</imprint>
+		<respStmt>
+			<orgName>Department of Computer Science, University of Colorado</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">The anatomy of prototypes: Prototypes as filters, prototypes as manifestations of design ideas</title>
+		<author>
+			<persName><forename type="first">Y.-K</forename><surname>Lim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Stolterman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tenenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Trans. Comput.-Hum. Interact</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">27</biblScope>
+			<date type="published" when="2008-07">July 2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Show me: Automatic presentation for visual analysis. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mackinlay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hanrahan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Stolte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1137" to="1144" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mccandless</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Busby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Timelines</surname></persName>
+		</author>
+		<ptr target="http://www.informationisbeautiful.net/visualizations/timelines" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<monogr>
+		<title level="m" type="main">Daily social interactions</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mercer</surname></persName>
+		</author>
+		<ptr target="http://portfolio.rachelmercer.org/projects/2634975#1" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">The four-level nested model revisited: blocks and guidelines</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Meyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sedlmair</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Munzner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2012 BELIV Workshop: Beyond Time and Errors -Novel Evaluation Methods for Visualization, BELIV &apos;12</title>
+				<meeting>the 2012 BELIV Workshop: Beyond Time and Errors -Novel Evaluation Methods for Visualization, BELIV &apos;12<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><surname>Meyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sedlmair</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Quinan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Munzner</surname></persName>
+		</author>
+		<title level="m">The nested blocks and guidelines model. Information Visualization</title>
+				<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A nested model for visualization design and validation. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Munzner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="921" to="928" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<monogr>
+		<title level="m" type="main">A quantitative content analysis of errors and inaccuracies in missouri newspaper information graphics</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Myers</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of Missouri-Columbia</orgName>
+		</respStmt>
+	</monogr>
+	<note>Master&apos;s thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Sitemaps, storyboards, and specifications: a sketch of web site design practice</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Landay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 3rd conference on Designing interactive systems: processes, practices, methods, and techniques, DIS &apos;00</title>
+				<meeting>the 3rd conference on Designing interactive systems: processes, practices, methods, and techniques, DIS &apos;00<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2000">2000</date>
+			<biblScope unit="page" from="263" to="274" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">The challenge of information visualization evaluation</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Plaisant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the working conference on Advanced visual interfaces, AVI &apos;04</title>
+				<meeting>the working conference on Advanced visual interfaces, AVI &apos;04<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="109" to="116" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">What does the user want to see?: what do the data want to be?</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Pretorius</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Van Wijk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Visualization</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="153" to="166" />
+			<date type="published" when="2009-06">June 2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Potter&apos;s wheel: An interactive data cleaning system</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Raman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Hellerstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 27th International Conference on Very Large Data Bases, VLDB &apos;01</title>
+				<meeting>the 27th International Conference on Very Large Data Bases, VLDB &apos;01<address><addrLine>San Francisco, CA, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Morgan Kaufmann Publishers Inc</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="page" from="381" to="390" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Processing.org: a networked context for learning computer programming</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Reas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM SIGGRAPH 2005 Web program, SIGGRAPH &apos;05</title>
+				<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Robinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schube</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Savitzky</surname></persName>
+		</author>
+		<ptr target="http://visual.ly/hbo-recycling-program" />
+		<title level="m">The HBO recycling program</title>
+				<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Interactive graphic design using automatic presentation knowledge</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Roth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kolojejchick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mattis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Goldstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;94</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;94<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="1994">1994</date>
+			<biblScope unit="page" from="112" to="117" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The design and implementation of an object-oriented toolkit for 3d graphics and visualization</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">J</forename><surname>Schroeder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">E</forename><surname>Lorensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 7th conference on Visualization &apos;96, VIS &apos;96</title>
+				<meeting>the 7th conference on Visualization &apos;96, VIS &apos;96<address><addrLine>Los Alamitos, CA, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>IEEE Computer Society Press</publisher>
+			<date type="published" when="1996">1996</date>
+			<biblScope unit="page">93</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Design study methodology: Reflections from the trenches and the stacks. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sedlmair</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Meyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Munzner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2431" to="2440" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Narrative visualization: Telling stories with data. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Segel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Heer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1139" to="1148" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Graph sketcher: extending illustration to quantitative graphs</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Stewart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schraefel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;09</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;09<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="page" from="1113" to="1116" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Polaris: a system for query, analysis, and visualization of multidimensional relational databases. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Stolte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hanrahan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="52" to="65" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Developing a (non-linear) practice of design thinking</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Teal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Art &amp; Design Education</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="294" to="302" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b42">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Vaiu</surname></persName>
+		</author>
+		<ptr target="http://christopheviau.com/d3tutorial/d3inkscape/" />
+		<title level="m">Scripting inkscape with d3.js</title>
+				<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b43">
+	<monogr>
+		<title level="m" type="main">Dynamic pictures</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Victor</surname></persName>
+		</author>
+		<ptr target="http://worrydream.com/#!/DynamicPicturesMotivation" />
+		<imprint>
+			<date type="published" when="2011-03">March 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Manyeyes: a site for visualization at internet scale. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Viegas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wattenberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kriss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Mckeon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1121" to="1128" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Homebrew databases: complexities of everyday information management in nonprofit organizations</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Voida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Harmon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Al-Ani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;11</title>
+				<meeting>the SIGCHI Conference on Human Factors in Computing Systems, CHI &apos;11<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="915" to="924" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Visual thinking in action: Visualizations as used on whiteboards. Visualization and Computer Graphics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Walny</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Carpendale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Henry Riche</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Venolia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Fawcett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2508" to="2517" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Reshaping data</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wickham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ASA Statistical Computing and Graphics Newsletter</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A layered grammar of graphics</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wickham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
