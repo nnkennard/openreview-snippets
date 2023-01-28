@@ -1,2 +1,0 @@
-openreview-py==1.0.24
-jupyter==1.0.0
