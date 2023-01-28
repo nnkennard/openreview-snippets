@@ -10,7 +10,7 @@ Feel free to start an issue if there is some functionality you would like a snip
 
 Discussions take the form of a tree of `Note` objects that each belong to a *forum*. Each submission corresponds to a single forum.
 
-[`print-discussion-structures`]() contains code to print a bare-bones representation of the discussion structure of a forum in a tree-looking format.
+[`print-discussion-structures`](https://github.com/nnkennard/openreview-snippets/blob/main/notebooks/print-discussion-structures.ipynb) contains code to print a bare-bones representation of the discussion structure of a forum in a tree-looking format.
 
 [`detailed-discussion-structures`]() contains code to extract more complex features from the discussion structure, including things like:
 * depth of conversation threads
