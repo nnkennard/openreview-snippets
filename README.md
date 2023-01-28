@@ -16,6 +16,8 @@ Discussions take the form of a tree of `Note` objects that each belong to a *for
 * depth of conversation threads
 * number of tokens written by authors/reviewers/others
 
+[`retrieve-review-rebuttal-threads`]()
+
 ## Managing manuscript files
 
 OpenReview allows download of certain versions fo each submission through its API. 
